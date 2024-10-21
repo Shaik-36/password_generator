@@ -2,6 +2,11 @@
 
 <img width="500" alt="password Generator" src="https://github.com/user-attachments/assets/4dc9e2b0-2e18-42a4-b9dd-dc76942b3837">
 
+Checkout the app
+`
+https://password-generator-theta-seven-43.vercel.app/
+`
+
 This project is built using react and react hooks to generate a random password.
 
 The password has length, numbers and characters 
