@@ -1,4 +1,9 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+
 import { useState, useCallback, useEffect, useRef } from 'react'
+import { green } from '@mui/material/colors';
 
 
 function App() {
@@ -6,6 +11,12 @@ function App() {
   const [numberAllow, setNumberAllow] = useState(false)
   const [charAllowed, setCharAllowed] = useState(false)
   const [password, setPassword] = useState("")
+  const [strength, setStrength] = useState(2)
+  const [strengthColor, setstrengthColor] = useState("warning")
+  const [passwordStrengthLabel, setPasswordStrengthLabel] = useState("Yellow")
+  const [passwordStrengthDispaly, setPasswordStrengthDispaly] = useState("")
+  
+  
 
 
   // --------- Ref Hook ---------
@@ -37,9 +48,40 @@ function App() {
     window.navigator.clipboard.writeText(password)
   }, [password])
 
+ const showPasswordStrength = useCallback(() => {
+
+  if (length < 8) {
+    setStrength(1)
+    setstrengthColor("error")
+    setPasswordStrengthLabel("Red")
+    setPasswordStrengthDispaly("Weak")
+  }
+
+  else if (length > 8 && length < 12 ) {
+    setStrength(2)
+    setstrengthColor("warning")
+    setPasswordStrengthLabel("Yellow")
+    setPasswordStrengthDispaly("Medium")
+  }
+
+  else if (length > 12 && length < 15 ) {
+    setStrength(3)
+    setstrengthColor("success")
+    setPasswordStrengthLabel("Green")
+    setPasswordStrengthDispaly("Strong")
+  }
+
+  else if (length > 15 ) {
+    setPasswordStrengthDispaly(" Very Strong")
+  }
+
+
+ }, [length])
 
   // -------------- UseEffect ----------------
   useEffect(() => { passwordGenetor()}, [length,numberAllow, charAllowed, passwordGenetor])
+
+  useEffect(() => { showPasswordStrength() }, [length])
 
   return (
     <>
@@ -68,7 +110,7 @@ function App() {
           </div>
 
           {/* Bottom Section */}
-          <div className='flex text-sm gap-2 my-4 py-4'>
+          <div className='flex text-sm gap-2 my-4 '>
 
             <div className='flex items-center gap-x-1'>
               <input 
@@ -110,8 +152,43 @@ function App() {
 
           </div>
 
+        {/* Password Details Display */}
+        <div class="flex flex-col text-xs text-white py-4 px-4">
+          <div>Length of Passowrd : {length}</div>
+          <div>Has Numbers : {numberAllow ? "Yes" : "No"}</div>
+          <div>Has Characters : {charAllowed ? "Yes" : "No"}</div>
+          
+        </div>
+        
+        {/* Password Strength Details */}
 
+        <div class="grid grid-flow-col auto-cols-max text-sm gap-4">
+              <div>
+                  <label >Password Strength : </label>
+                  </div>
+                  
+                  
+                  <div  style={{color: passwordStrengthLabel}}>
 
+                  <p>{passwordStrengthDispaly}</p>
+
+              </div>
+        </div>
+
+        <div class="grid place-content-center h-10 ">
+          <Box sx={{ width: 300 }} className='place-items-center' >
+            <Slider
+              min={1}
+              max={3}
+              aria-label="Temperature"
+              defaultValue={2}
+              value={strength}
+              color={strengthColor}
+            />
+          </Box>
+        </div>
+        
+          
         </div>
     </>
   )
