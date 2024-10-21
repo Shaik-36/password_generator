@@ -1,6 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 
 
 function App() {
@@ -10,10 +8,10 @@ function App() {
   const [password, setPassword] = useState("")
 
 
-  // Ref Hook
+  // --------- Ref Hook ---------
   const passwordRef = useRef(null)
 
-
+  // ---------- Use Callback Hook --------------
   const passwordGenetor = useCallback(() => {
     let pass = ""
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -40,7 +38,7 @@ function App() {
   }, [password])
 
 
-  // UseEffect
+  // -------------- UseEffect ----------------
   useEffect(() => { passwordGenetor()}, [length,numberAllow, charAllowed, passwordGenetor])
 
   return (
