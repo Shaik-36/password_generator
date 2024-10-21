@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 
 import { useState, useCallback, useEffect, useRef } from 'react'
-import { green } from '@mui/material/colors';
 
 
 function App() {
@@ -19,10 +18,14 @@ function App() {
   
 
 
+
   // --------- Ref Hook ---------
   const passwordRef = useRef(null)
 
-  // ---------- Use Callback Hook --------------
+
+
+
+  // ---------- Use Callback Hook START --------------
   const passwordGenetor = useCallback(() => {
     let pass = ""
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
@@ -48,40 +51,46 @@ function App() {
     window.navigator.clipboard.writeText(password)
   }, [password])
 
- const showPasswordStrength = useCallback(() => {
-
-  if (length < 8) {
-    setStrength(1)
-    setstrengthColor("error")
-    setPasswordStrengthLabel("Red")
-    setPasswordStrengthDispaly("Weak")
-  }
-
-  else if (length > 8 && length < 12 ) {
-    setStrength(2)
-    setstrengthColor("warning")
-    setPasswordStrengthLabel("Yellow")
-    setPasswordStrengthDispaly("Medium")
-  }
-
-  else if (length > 12 && length < 15 ) {
-    setStrength(3)
-    setstrengthColor("success")
-    setPasswordStrengthLabel("Green")
-    setPasswordStrengthDispaly("Strong")
-  }
-
-  else if (length > 15 ) {
-    setPasswordStrengthDispaly(" Very Strong")
-  }
+  const showPasswordStrength = useCallback(() => {
 
 
- }, [length])
+    if (length < 8) {
+      setStrength(1)
+      setstrengthColor("error")
+      setPasswordStrengthLabel("Red")
+      setPasswordStrengthDispaly("Weak")
+    }
 
-  // -------------- UseEffect ----------------
+    else if (length > 8 && length < 12 ) {
+      setStrength(2)
+      setstrengthColor("warning")
+      setPasswordStrengthLabel("Yellow")
+      setPasswordStrengthDispaly("Medium")
+    }
+
+    else if (length > 12 && length < 15 ) {
+      setStrength(3)
+      setstrengthColor("success")
+      setPasswordStrengthLabel("Green")
+      setPasswordStrengthDispaly("Strong")
+    }
+
+    else if (length > 15 ) {
+      setPasswordStrengthDispaly(" Very Strong")
+    }
+
+
+  }, [length])
+  // ---------- Use Callback Hook END --------------
+
+
+  // -------------- UseEffect START ----------------
   useEffect(() => { passwordGenetor()}, [length,numberAllow, charAllowed, passwordGenetor])
 
   useEffect(() => { showPasswordStrength() }, [length])
+
+  // -------------- UseEffect END  ----------------
+
 
   return (
     <>
@@ -89,7 +98,7 @@ function App() {
           
           <h1 className='text-white text-center py-4'>Password Generator</h1>
 
-          {/* Top Section */}
+          {/* Password Section */}
           <div className='flex shadow rounded-lg overflow-hidden gap-4 my-1'>
 
               <input type="text" 
@@ -109,7 +118,7 @@ function App() {
 
           </div>
 
-          {/* Bottom Section */}
+          {/* Password Generating Section */}
           <div className='flex text-sm gap-2 my-4 '>
 
             <div className='flex items-center gap-x-1'>
@@ -152,41 +161,41 @@ function App() {
 
           </div>
 
-        {/* Password Details Display */}
-        <div class="flex flex-col text-xs text-white py-4 px-4">
-          <div>Length of Passowrd : {length}</div>
-          <div>Has Numbers : {numberAllow ? "Yes" : "No"}</div>
-          <div>Has Characters : {charAllowed ? "Yes" : "No"}</div>
+          {/* Password Details Display */}
+          <div class="flex flex-col text-xs text-white py-4 px-4">
+            <div>Length of Passowrd : {length}</div>
+            <div>Has Numbers : {numberAllow ? "Yes" : "No"}</div>
+            <div>Has Characters : {charAllowed ? "Yes" : "No"}</div>
+            
+          </div>
           
-        </div>
-        
-        {/* Password Strength Details */}
+          {/* Password Strength Details */}
+          <div class="grid grid-flow-col auto-cols-max text-sm gap-4">
+                <div>
+                    <label >Password Strength : </label>
+                    </div>
+                    
+                    
+                    <div  style={{color: passwordStrengthLabel}}>
 
-        <div class="grid grid-flow-col auto-cols-max text-sm gap-4">
-              <div>
-                  <label >Password Strength : </label>
-                  </div>
-                  
-                  
-                  <div  style={{color: passwordStrengthLabel}}>
+                    <p>{passwordStrengthDispaly}</p>
 
-                  <p>{passwordStrengthDispaly}</p>
+                </div>
+          </div>
 
-              </div>
-        </div>
-
-        <div class="grid place-content-center h-10 ">
-          <Box sx={{ width: 300 }} className='place-items-center' >
-            <Slider
-              min={1}
-              max={3}
-              aria-label="Temperature"
-              defaultValue={2}
-              value={strength}
-              color={strengthColor}
-            />
-          </Box>
-        </div>
+          {/* Slide Bar */}
+          <div class="grid place-content-center h-10 ">
+            <Box sx={{ width: 300 }} className='place-items-center' >
+              <Slider
+                min={1}
+                max={3}
+                aria-label="Temperature"
+                defaultValue={2}
+                value={strength}
+                color={strengthColor}
+              />
+            </Box>
+          </div>
         
           
         </div>
